@@ -63,6 +63,14 @@ public class Game implements Runnable{
     private void handleGameOver(){
         System.out.print("Another Game? y/n");
         String input = in.next();
+        if(input.length() != 1){
+            System.out.println("Please only enter 1 character \'y\' or \'n\'!");
+            handleGameOver();
+        }else{
+            if(input.toCharArray()[0] == 'y'){
+                running = true;
+            }
+        }
     }
 
     @Override
