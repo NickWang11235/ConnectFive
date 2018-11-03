@@ -15,7 +15,14 @@ public class ConnectFive {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try{
+            Thread t = new Thread(new Game(10, 10, new Player("Nick"), new Player("Sam")));
+            t.start();
+        }catch(Game.PlayerAmountException e){
+            System.exit(0);
+        }
+        
+        
     }
     
 }
