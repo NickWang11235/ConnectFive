@@ -60,5 +60,17 @@ public class Board {
         }
         return false;
     }
+ 
+    @Override
+    public String toString(){
+        String b = "";
+        for(int[] r : board){
+            for(int c : r){
+                b += c;
+            }
+            b += "\n";
+        }
+        return b;
+    }
     
 }

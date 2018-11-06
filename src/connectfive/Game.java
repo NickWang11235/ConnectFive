@@ -16,17 +16,17 @@ public class Game implements Runnable{
     private Scanner in;
         
     private boolean running;
-    private Board board;
+    public static Board board;
     private Player[] players;
 
-    public Game(int row, int col, Player... players) throws PlayerAmountException{
+    public Game(Board board, Player... players) throws PlayerAmountException{
         in = new Scanner(System.in);
         if(players.length <= 1){
             throw new PlayerAmountException();
         }else{
             this.players = new Player[players.length];
             running = true;
-            board = new Board(row, col);
+            this.board = board;
             for(int i = 0; i < players.length; i++){
                 this.players[i] = players[i];
             }
@@ -78,6 +78,7 @@ public class Game implements Runnable{
         while(running){
             for(Player p : players){
                 playMove(p);
+                System.out.println(board);
             }
         }
         

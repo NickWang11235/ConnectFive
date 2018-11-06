@@ -14,7 +14,6 @@ public class Player {
     private Game game;
     private String name;
     public final int id;
-    private Board board;
     
     public Player(String name, int id) {
         this.name = name;
@@ -23,8 +22,8 @@ public class Player {
     
     public boolean playMove(int row, int col, int num){
         try{
-                board.set(row, col, num);
-                return true;
+            Game.board.set(row, col, num);
+            return true;
         }catch(ArrayIndexOutOfBoundsException e){
             return false;
         }
