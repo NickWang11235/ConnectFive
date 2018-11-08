@@ -22,8 +22,12 @@ public class Player {
     
     public boolean playMove(int row, int col, int num){
         try{
-            Game.board.set(row, col, num);
-            return true;
+            if(Game.board.getBoard()[row][col] == 0){
+                Game.board.set(row, col, num);
+                return true;
+            }else{
+                return false;
+            }
         }catch(ArrayIndexOutOfBoundsException e){
             return false;
         }

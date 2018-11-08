@@ -66,11 +66,11 @@ public class Board {
         String b = "";
         for(int[] r : board){
             for(int c : r){
-                b += c;
+                b += c + " ";
             }
             b += "\n";
         }
-        return b;
+        return b; 
     }
     
 }

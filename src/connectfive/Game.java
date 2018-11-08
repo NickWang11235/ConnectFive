@@ -41,6 +41,7 @@ public class Game implements Runnable{
             String[] inputs = input.split(",");
             
             if(inputs.length != 2){
+                System.out.println("Invalid input! Enter a better value!");
                 getInput();
             }
             
