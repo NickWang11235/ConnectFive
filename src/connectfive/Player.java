@@ -13,16 +13,21 @@ public class Player {
     
     private Game game;
     private String name;
-    private Board board;
-
-    public Player(String name) {
+    public final int id;
+    
+    public Player(String name, int id) {
         this.name = name;
+        this.id = id;
     }
     
     public boolean playMove(int row, int col, int num){
         try{
-            board.set(row, col, num);
-            return true;
+            if(Game.board.getBoard()[row][col] == 0){
+                Game.board.set(row, col, num);
+                return true;
+            }else{
+                return false;
+            }
         }catch(ArrayIndexOutOfBoundsException e){
             return false;
         }

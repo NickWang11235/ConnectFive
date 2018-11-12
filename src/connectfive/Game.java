@@ -16,22 +16,22 @@ public class Game implements Runnable{
     private Scanner in;
         
     private boolean running;
-    private Board board;
+    public static Board board;
     private Player[] players;
 
-    public Game(int row, int col, Player... players) throws PlayerAmountException{
+    public Game(Board board, Player... players) throws PlayerAmountException{
         in = new Scanner(System.in);
-        if(players.length >= 1){
+        if(players.length <= 1){
             throw new PlayerAmountException();
         }else{
+            this.players = new Player[players.length];
             running = true;
+            this.board = board;
             for(int i = 0; i < players.length; i++){
                 this.players[i] = players[i];
             }
-            board = new Board(row, col);
         }
     }
-    
     
     private String[] getInput(){
         
@@ -41,6 +41,7 @@ public class Game implements Runnable{
             String[] inputs = input.split(",");
             
             if(inputs.length != 2){
+                System.out.println("Invalid input! Enter a better value!");
                 getInput();
             }
             
@@ -48,18 +49,16 @@ public class Game implements Runnable{
             
     }
     
-    private void playMove(){
+    private void playMove(Player p){
         String[] inputs = getInput();
-        if(!p.playMove(Integer.valueOf(inputs[0]), Integer.valueOf(inputs[1]))){
-            playMove();
+        if(!p.playMove(Integer.valueOf(inputs[0]), Integer.valueOf(inputs[1]), p.id)){
+            playMove(p);
         }
-        return;
+        if(board.checkGameOver(Integer.valueOf(inputs[0]), Integer.valueOf(inputs[1]),p.id)){
+            handleGameOver();
+        }
     }
-    
-    private void checkGameOver(){
-        running = board.checkGameOver();
-    }
-    
+     
     private void handleGameOver(){
         System.out.print("Another Game? y/n");
         String input = in.next();
@@ -69,6 +68,8 @@ public class Game implements Runnable{
         }else{
             if(input.toCharArray()[0] == 'y'){
                 running = true;
+            }else{
+                System.exit(0);
             }
         }
     }
@@ -77,10 +78,9 @@ public class Game implements Runnable{
     public void run() {
         while(running){
             for(Player p : players){
-                playMove();
-                checkGameOver();
+                playMove(p);
+                System.out.println(board);
             }
-            handleGameOver();
         }
         
         System.exit(0);
