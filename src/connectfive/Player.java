@@ -28,7 +28,7 @@ public class Player {
             }else{
                 return false;
             }
-        }catch(ArrayIndexOutOfBoundsException e){
+        }catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
             return false;
         }
     }

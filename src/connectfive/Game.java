@@ -22,7 +22,7 @@ public class Game implements Runnable{
     public Game(Board board, Player... players) throws PlayerAmountException{
         in = new Scanner(System.in);
         if(players.length <= 1){
-            throw new PlayerAmountException();
+            throw new PlayerAmountException("At least one player must be in the game");
         }else{
             this.players = new Player[players.length];
             running = true;
@@ -67,6 +67,7 @@ public class Game implements Runnable{
             handleGameOver();
         }else{
             if(input.toCharArray()[0] == 'y'){
+                board.reset();
                 running = true;
             }else{
                 System.exit(0);
