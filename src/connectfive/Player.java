@@ -9,29 +9,9 @@ package connectfive;
  *
  * @author nickw
  */
-public class Player {
+public interface Player {
     
-    private Game game;
-    private String name;
-    public final int id;
+    void play();
     
-    public Player(String name, int id) {
-        this.name = name;
-        this.id = id;
-    }
-    
-    public boolean playMove(int row, int col, int num){
-        try{
-            if(Game.board.getBoard()[row][col] == 0){
-                Game.board.set(row, col, num);
-                return true;
-            }else{
-                System.out.println("Spot Already Taken!");
-                return false;
-            }
-        }catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
-            return false;
-        }
-    }
-    
+    void close();
 }

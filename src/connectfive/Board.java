@@ -56,7 +56,6 @@ public class Board {
                     y = j - dy;
                     while(x < board.length && y < board[0].length && x >= 0 && y >= 0 && 
                             board[x][y] == identity){
-//                            System.out.println("inc");
                             counter++;
                             x -= dx;
                             y -= dy; 
