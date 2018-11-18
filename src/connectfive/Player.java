@@ -29,7 +29,7 @@ public class Player {
                 System.out.println("Spot Already Taken!");
                 return false;
             }
-        }catch(ArrayIndexOutOfBoundsException e){
+        }catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
             return false;
         }
     }
