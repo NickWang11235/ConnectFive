@@ -42,7 +42,7 @@ public class Game implements Runnable{
             
             if(inputs.length != 2){
                 System.out.println("Invalid input! Enter a better value!");
-                getInput();
+                return null;
             }
             
             return inputs;
@@ -51,10 +51,16 @@ public class Game implements Runnable{
     
     private void playMove(Player p){
         String[] inputs = getInput();
+        if(inputs == null){
+            playMove(p);
+            return;
+        }
         if(!p.playMove(Integer.valueOf(inputs[0]), Integer.valueOf(inputs[1]), p.id)){
             playMove(p);
+            return;
         }
         if(board.checkGameOver(Integer.valueOf(inputs[0]), Integer.valueOf(inputs[1]),p.id)){
+            running = false;
             handleGameOver();
         }
     }

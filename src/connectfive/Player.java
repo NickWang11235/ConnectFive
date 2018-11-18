@@ -26,6 +26,7 @@ public class Player {
                 Game.board.set(row, col, num);
                 return true;
             }else{
+                System.out.println("Spot Already Taken!");
                 return false;
             }
         }catch(ArrayIndexOutOfBoundsException e){
