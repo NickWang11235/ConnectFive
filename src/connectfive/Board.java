@@ -32,17 +32,13 @@ public class Board {
     }
     
     public boolean checkGameOver(int currRow, int currCol, int identity){
-<<<<<<< HEAD
-        for(int i = currRow - 1; i < currRow + 2; i++){
-            for(int j = currCol - 1; j < currCol + 2 && !(i == currRow && j == currCol); j++){
-=======
+
         outerloop:
         for(int i = currRow - 1; i < currRow + 2; i++){
             for(int j = currCol - 1; j < currCol + 2; j++){
                 if(i == currRow && j == currCol){
                     break outerloop;
                 }
->>>>>>> c250a682b2f809222230a33aed57542e0430814f
                 if(i >= 0 && i < board.length && currCol >= 0 && currCol < board[0].length ){
                     int x = i;
                     int y = j;
