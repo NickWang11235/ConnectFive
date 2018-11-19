@@ -17,7 +17,7 @@ public class ConnectFive {
     public static void main(String[] args) {
         try{
             Board b = new Board(10,10);
-            Thread t = new Thread(new Game(b , new Player("Nick", 1), new Player("Sam" ,2)));
+            Thread t = new Thread(new Game(b , new HostPlayer("Nick", 1), new ConnectingPlayer("Sam" ,2)));
             t.start();
         }catch(Game.PlayerAmountException e){
             System.exit(0);

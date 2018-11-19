@@ -5,6 +5,8 @@
  */
 package connectfive;
 
+import java.io.*;
+import java.net.*;
 import java.util.Scanner;
 
 /**
@@ -50,6 +52,7 @@ public class Game implements Runnable{
     }
     
     private void playMove(Player p){
+        System.out.println("Player " + p.id);
         String[] inputs = getInput();
         if(!p.playMove(Integer.valueOf(inputs[0]), Integer.valueOf(inputs[1]), p.id)){
             playMove(p);
@@ -77,14 +80,14 @@ public class Game implements Runnable{
 
     @Override
     public void run() {
+
         while(running){
             for(Player p : players){
                 playMove(p);
                 System.out.println(board);
             }
         }
-        
-        System.exit(0);
+            
     }
     
     public static class PlayerAmountException extends Exception{
