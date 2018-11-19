@@ -13,29 +13,28 @@ import java.util.Scanner;
  *
  * @author nickw
  */
-public class Game implements Runnable{
+public class Game{
     
-    private Scanner in;
+    private static Scanner in;
         
-    private boolean running;
+    private static boolean running;
     public static Board board;
-    private Player[] players;
-
-    public Game(Board board, Player... players) throws PlayerAmountException{
+    
+    public Game(Board board){
         in = new Scanner(System.in);
-        if(players.length <= 1){
-            throw new PlayerAmountException("At least one player must be in the game");
-        }else{
-            this.players = new Player[players.length];
-            running = true;
-            this.board = board;
-            for(int i = 0; i < players.length; i++){
-                this.players[i] = players[i];
-            }
-        }
+        this.board = board;
+        running = true;
     }
     
-    private String[] getInput(){
+    public static boolean getState(){
+        return running;
+    }
+    
+    public static void setStage(boolean state){
+        running = state;
+    }
+    
+    public static String getInput(){
         
             System.out.print("Enter row, col :");
             String input = in.next();
@@ -43,26 +42,14 @@ public class Game implements Runnable{
             String[] inputs = input.split(",");
             
             if(inputs.length != 2){
-                System.out.println("Invalid input! Enter a better value!");
-                getInput();
+                return getInput();
             }
             
-            return inputs;
+            return input;
             
     }
-    
-    private void playMove(Player p){
-        System.out.println("Player " + p.id);
-        String[] inputs = getInput();
-        if(!p.playMove(Integer.valueOf(inputs[0]), Integer.valueOf(inputs[1]), p.id)){
-            playMove(p);
-        }
-        if(board.checkGameOver(Integer.valueOf(inputs[0]), Integer.valueOf(inputs[1]),p.id)){
-            handleGameOver();
-        }
-    }
-     
-    private void handleGameOver(){
+
+    public static void handleGameOver(){
         System.out.print("Another Game? y/n");
         String input = in.next();
         if(input.length() != 1){
@@ -77,17 +64,9 @@ public class Game implements Runnable{
             }
         }
     }
-
-    @Override
-    public void run() {
-
-        while(running){
-            for(Player p : players){
-                playMove(p);
-                System.out.println(board);
-            }
-        }
             
+    public static void printBoard(){
+        System.out.println(board);
     }
     
     public static class PlayerAmountException extends Exception{

@@ -11,6 +11,7 @@ package connectfive;
  */
 public interface Player {
     
-    boolean playMove(int row, int col, int num);
+    void play();
     
+    void close();
 }

@@ -12,28 +12,28 @@ import java.io.*;
  *
  * @author nickw
  */
-public class HostPlayer implements Player{
-    
+public class ClientPlayer implements Player{
+ 
     public boolean status;
-    private ServerSocket server;
     private Socket client;
-    BufferedReader in;
-    PrintWriter out;
+    private BufferedReader in;
+    private PrintWriter out;
     
-    public HostPlayer(int port){
-        status = true;
-        
+    public ClientPlayer(String host, int port) {
+        status = false;
+
         try{
-            server = new ServerSocket(port);
-            client = server.accept();
+            client = new Socket(host, port);
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             out = new PrintWriter(client.getOutputStream(), true);
+        }catch(UnknownHostException e){
+            System.out.printf("Unable to connect host %s on port %d", host, port);
         }catch(IOException e){
-            System.out.println("Error while communicating with client");
+            System.out.println("Error while communicating to client");
         }
-        
+            
     }
-    
+
     @Override
     public void close(){
         try{
@@ -64,9 +64,9 @@ public class HostPlayer implements Player{
             String input = Game.getInput();
             String[] inputs = input.split(",");
             
-            if(playMove(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), ConnectFive.SERVER_HOST_ID)){
+            if(playMove(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), ConnectFive.CLIENT_ID)){
                 Game.printBoard();
-                if(Game.board.checkGameOver(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), ConnectFive.SERVER_HOST_ID)){
+                if(Game.board.checkGameOver(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), ConnectFive.CLIENT_ID)){
                     Game.setStage(false);
                     Game.handleGameOver();
                 }
@@ -81,7 +81,7 @@ public class HostPlayer implements Player{
                 while((input = in.readLine()) != null){
                     String[] inputs = input.split(",");
                     if(inputs.length == 2){
-                        playMove(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), ConnectFive.CLIENT_ID);
+                        playMove(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), ConnectFive.SERVER_HOST_ID);
                         Game.printBoard();
                         if(Game.board.checkGameOver(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), ConnectFive.CLIENT_ID)){
                             Game.setStage(false);
@@ -92,9 +92,8 @@ public class HostPlayer implements Player{
                     }
                 }
             }catch(IOException e){
-                System.out.println("Error reading input from client");
+                System.out.println("Error reading input from host");
             }
         }
     }
-    
 }

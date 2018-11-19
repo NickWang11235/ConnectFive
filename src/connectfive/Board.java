@@ -32,6 +32,7 @@ public class Board {
     }
     
     public boolean checkGameOver(int currRow, int currCol, int identity){
+
         outerloop:
         for(int i = currRow - 1; i < currRow + 2; i++){
             for(int j = currCol - 1; j < currCol + 2; j++){
@@ -46,6 +47,7 @@ public class Board {
                     int counter = 0;
                     while(x < board.length && y < board[0].length && x >= 0 && y >= 0 && 
                             board[x][y] == identity){
+                            System.out.println("inc");
                             counter++;
                             x += dx;
                             y += dy; 
