@@ -93,6 +93,7 @@ public class ClientPlayer implements Player{
                 }
             }catch(IOException e){
                 System.out.println("Error reading input from host");
+                System.exit(0);
             }
         }
     }

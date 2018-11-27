@@ -5,9 +5,6 @@
  */
 package connectfive;
 
-import java.io.*;
-import java.net.*;
-
 /**
  *
  * @author nickw
