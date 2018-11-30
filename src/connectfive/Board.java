@@ -47,7 +47,6 @@ public class Board {
                     int counter = 0;
                     while(x < board.length && y < board[0].length && x >= 0 && y >= 0 && 
                             board[x][y] == identity){
-                            System.out.println("inc");
                             counter++;
                             x += dx;
                             y += dy; 
@@ -60,7 +59,6 @@ public class Board {
                             x -= dx;
                             y -= dy; 
                     }
-                    out.println(counter);
                     if(counter >= WIN_CONDITION){
                         return true;
                     }
