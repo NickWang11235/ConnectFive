@@ -1,0 +1,8 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} This is a practice project with the java.net and the java.io packets
+${licensePrefix}This is a game of connect five, where two players place markers on a board, and the first player to have 5 straight, consecutive pieces, whether being vertical, horizontal, or diagnol, wins ${licensePrefix}
+<#if licenseLast??>
+${licenseLast}
+</#if>
