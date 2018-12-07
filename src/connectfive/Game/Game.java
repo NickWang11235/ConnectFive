@@ -5,16 +5,16 @@
  */
 package connectfive.Game;
 
-import java.io.*;
-import java.net.*;
 import java.util.Scanner;
 
 /**
- *
+ * This is a instance of a game, includes the board status and methods that is 
+ * crucial to determining the status of a game.
  * @author nickw
  */
 public class Game{
     
+    //Input from console
     private static Scanner in;
         
     private static boolean running;
@@ -22,7 +22,7 @@ public class Game{
     
     public Game(Board board){
         in = new Scanner(System.in);
-        this.board = board;
+        Game.board = board;
         running = true;
     }
     
@@ -34,14 +34,20 @@ public class Game{
         running = state;
     }
     
+    /**
+     * Retrieves a valid input from console
+     * @return the validated input String
+     */
     public static String getInput(){
-        
+            //Prompts the user for input
             System.out.print("Enter row, col :");
             String input = in.next();
             input = input.trim();
             String[] inputs = input.split(",");
             
+            //Checks if the input conforms to a certain format
             if(inputs.length != 2){
+                //Recursively propmts the user until a vaild input is recieved
                 return getInput();
             }
             
@@ -49,17 +55,26 @@ public class Game{
             
     }
 
+    /**
+     * Handles what is to be done after a game is over
+     */
     public static void handleGameOver(){
+        //Prompt the player for another game
         System.out.print("Another Game? y/n");
         String input = in.next();
+        //Validates the input
         if(input.length() != 1){
             System.out.println("Please only enter 1 character \'y\' or \'n\'!");
+            //Recursively prompt until a valid input is recieved            
             handleGameOver();
         }else{
+            //If another game is wanted
             if(input.toCharArray()[0] == 'y'){
+                //Start over
                 board.reset();
                 running = true;
             }else{
+                //Terminates the program
                 System.exit(0);
             }
         }

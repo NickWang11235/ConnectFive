@@ -49,7 +49,7 @@ public class HostPlayer implements Player{
     }
     
     /**
-     * Closes all I/O streams as it would be done with try-with-resource 
+     * Closes all I/O streams
      */
     @Override
     public void close(){
@@ -97,7 +97,7 @@ public class HostPlayer implements Player{
             String input = Game.getInput();
             String[] inputs = input.split(",");
             
-            //Play a move, if it's valid
+            //Play a move, if it's unoccupied
             if(playMove(Integer.parseInt(inputs[0]), 
                         Integer.parseInt(inputs[1]), 
                         Launcher.SERVER_HOST_ID)){
