@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package connectfive.Game;
+
+package connectfive;
 
 /**
  * The underlying play board of ConnectFive game

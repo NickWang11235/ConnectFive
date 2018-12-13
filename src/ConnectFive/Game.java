@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package connectfive.Game;
+
+package connectfive;
 
 import java.util.Scanner;
 
@@ -17,7 +18,7 @@ public class Game{
     //Input from console
     private static Scanner in;
         
-    private static boolean running;
+    public static boolean running;
     public static Board board;
     
     public Game(Board board){

@@ -3,47 +3,50 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package connectfive.Player;
 
-import connectfive.Game.Game;
-import connectfive.Launcher.Launcher;
+package connectfive;
+
 import java.net.*;
 import java.io.*;
 
 /**
- * A ClientPlayer is specific to the player that connects to a host.
- * The Client only hosts one Socket that reads and writes to the Host
+ * A HostPlayer is specific to the player that host the game.
+ * The Host hosts the java.net.ServerSocket and listens for client request to 
+ * open a channel, then proceed to the game.
  * @author nickw
  */
-public class ClientPlayer implements Player{
- 
+public class HostPlayer implements Player{
+    
     //Indicates which player is playing. 
     public boolean status;
-    //Client end socket
-    private Socket client;
-    //Reads input from server socket
-    private BufferedReader in;
-    //Writes output to server socket
-    private PrintWriter out;
     
-    public ClientPlayer(String host, int port) {
-        //Client player gets second move
-        status = false;
-
+    //Server end socket
+    private ServerSocket server;
+    //Client socket
+    private Socket client;
+    //Reads input from client socket
+    BufferedReader in;
+    //Writes output to client socket
+    PrintWriter out;
+    
+    public HostPlayer(int port){
+        //Host's player gets first move
+        status = true;
+        
         try{
-            //Connect to socket at host on port
-            client = new Socket(host, port);
-            //Get I/O stream from socket
+            //Open socket on port
+            server = new ServerSocket(port);
+            //Wait for client request to create the client socket
+            client = server.accept();
+            //Get I/O stream from client socket
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             out = new PrintWriter(client.getOutputStream(), true);
-        }catch(UnknownHostException e){
-            System.out.printf("Unable to connect host %s on port %d", host, port);
         }catch(IOException e){
-            System.out.println("Error while communicating to client");
+            System.out.println("Error while communicating with client");
         }
-            
+        
     }
-
+    
     /**
      * Closes all I/O streams
      */
@@ -81,54 +84,72 @@ public class ClientPlayer implements Player{
         }
     }    
 
+    /**
+     * Defines all behavior of HostPlayer while the game is running, including 
+     * playing a move, waiting, determining winner, etc
+     */
     @Override
     public void play() {
-        //If it's ClientPlayer's turn
+        //If it's HostPlayer's turn
         if(status){
             //Get a valid input from player and process it
             String input = Game.getInput();
             String[] inputs = input.split(",");
             
             //Play a move, if it's unoccupied
-            if(playMove(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), Launcher.CLIENT_ID)){
+            if(playMove(Integer.parseInt(inputs[0]), 
+                        Integer.parseInt(inputs[1]), 
+                        Launcher.SERVER_HOST_ID)){
                 Game.printBoard();
                 //Check if game has ended
-                if(Game.board.checkGameOver(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), Launcher.CLIENT_ID)){
+                if(Game.board.checkGameOver(Integer.parseInt(inputs[0]), 
+                   Integer.parseInt(inputs[1]), 
+                   Launcher.SERVER_HOST_ID)){
                     Game.setStage(false);
                     Game.handleGameOver();
                 }
-                //Sends to the host a valid input
+                //Sends to the client a valid input
                 out.println(input);
-                //Hands turn to Host
+                //Hands turn to Client
                 status = false;
             }else{
                 //Recursively play until a valid move is made
                 play();
             }
-        //If it's HostPlayer's turn
+        //If it's ClientPlayer's turn
         }else{
             try {
                 String input;
-                //Reading input from host
+                //Reading input from client
                 while((input = in.readLine()) != null){
                     //Recieves a valid input from the client
                     String[] inputs = input.split(",");
                     if(inputs.length == 2){
-                        playMove(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), Launcher.SERVER_HOST_ID);
+                        playMove(Integer.parseInt(inputs[0]), 
+                                 Integer.parseInt(inputs[1]), 
+                                 Launcher.CLIENT_ID);
                         Game.printBoard();
-                        if(Game.board.checkGameOver(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]), Launcher.CLIENT_ID)){
+                        if(Game.board.checkGameOver(Integer.parseInt(inputs[0]), 
+                                                    Integer.parseInt(inputs[1]), 
+                                                    Launcher.CLIENT_ID)){
                             Game.setStage(false);
                             Game.handleGameOver();
                         }
-                        //Hands the turn over to Client
+                        //Hands the turn over to Host
                         status = true;
-                        //Once a move has been made, stop reading from stream
+                        //Once a cient move has been made, stop reading from stream
                         break;
                     }
                 }
             }catch(IOException e){
-                System.out.println("Error reading input from host");
+                System.out.println("Error reading input from client");
             }
         }
     }
+
+    @Override
+    public int getID() {
+        return Launcher.SERVER_HOST_ID;
+    }
+    
 }

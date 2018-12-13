@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package connectfive.Launcher;
+
+package connectfive;
 
 /**
  * This is the launcher of the ConnectFive with GUI. It launches two threads, 
@@ -17,8 +18,8 @@ public class Launcher {
     public static final int CLIENT_ID = 2;
     //Static variables including JFrame title and size
     public static final String GAME_NAME = "ConnectFive Test";
-    public static final int GAME_HEIGHT = 600;
-    public static final int GAME_WIDTH = 800;
+    public static final int GAME_HEIGHT = 18;
+    public static final int GAME_WIDTH = 18;
 
     /**
      * @param args the command line arguments
@@ -30,8 +31,8 @@ public class Launcher {
         t1.start();
         //Launches a second thread with invokeLater to work specifically with 
         //awt and swing components
-        java.awt.EventQueue.invokeLater(
-                () -> new GUILauncher(GAME_NAME, GAME_WIDTH, GAME_HEIGHT));
+        java.awt.EventQueue.invokeLater(() -> new GUILauncher());
+            
         
     }
     
